@@ -9,6 +9,10 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
 
+    env:
+      CYPRESS_USERNAME: ${{ secrets.CYPRESS_USERNAME }}
+      CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -34,26 +38,3 @@ jobs:
           else
             echo "status=failed" >> $GITHUB_OUTPUT
           fi
-
-      - name: Send Slack Notification
-        if: always()
-        run: |
-          STATUS="${{ steps.result.outputs.status }}"
-          COLOR="#2eb886"
-          MESSAGE="✅ Cypress tests passed!"
-
-          if [ "$STATUS" = "failed" ]; then
-            COLOR="#e01e5a"
-            MESSAGE="❌ Cypress tests failed!"
-          fi
-
-          curl -X POST -H 'Content-type: application/json' \
-          --data "{
-            \"attachments\": [
-              {
-                \"color\": \"$COLOR\",
-                \"text\": \"$MESSAGE\nRepo: ${{ github.repository }}\nBranch: ${{ github.ref_name }}\nCommit: ${{ github.sha }}\nRun: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"
-              }
-            ]
-          }" \
-          ${{ secrets.SLACK_WEBHOOK_URL }}
