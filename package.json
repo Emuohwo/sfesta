@@ -12,6 +12,7 @@
   "type": "commonjs",
   "dependencies": {
     "cypress": "^15.13.1",
+    "cypress-mochawesome-reporter": "^4.0.2",
     "dotenv": "^17.4.1"
   }
 }
