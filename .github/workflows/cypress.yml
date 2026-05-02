@@ -1,0 +1,59 @@
+name: Cypress Tests + Slack Notification
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Cypress tests
+        id: cypress
+        run: npx cypress run
+        continue-on-error: true
+
+      - name: Set result status
+        id: result
+        run: |
+          if [ "${{ steps.cypress.outcome }}" = "success" ]; then
+            echo "status=passed" >> $GITHUB_OUTPUT
+          else
+            echo "status=failed" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Send Slack Notification
+        if: always()
+        run: |
+          STATUS="${{ steps.result.outputs.status }}"
+          COLOR="#2eb886"
+          MESSAGE="✅ Cypress tests passed!"
+
+          if [ "$STATUS" = "failed" ]; then
+            COLOR="#e01e5a"
+            MESSAGE="❌ Cypress tests failed!"
+          fi
+
+          curl -X POST -H 'Content-type: application/json' \
+          --data "{
+            \"attachments\": [
+              {
+                \"color\": \"$COLOR\",
+                \"text\": \"$MESSAGE\nRepo: ${{ github.repository }}\nBranch: ${{ github.ref_name }}\nCommit: ${{ github.sha }}\nRun: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"
+              }
+            ]
+          }" \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
