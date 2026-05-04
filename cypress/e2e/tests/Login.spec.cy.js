@@ -10,15 +10,15 @@ describe('Login Page Tests', () => {
     it('should display error for empty email', () => {
         loginPage.enterPassword('validPassword123');
         loginPage.submit();
-        // cy.get('.text-red-500').should('contain', 'Email is required');
-        cy.get('.text-red-500').should('contain', 'Required');
+        cy.get('.text-red-500').should('contain', 'Email is required');
+        // cy.get('.text-red-500').should('contain', 'Required');
     });
 
     it('should display error for empty password', () => {
         loginPage.enterEmail('test@example.com');
         loginPage.submit();
-        // cy.get('.text-red-500').should('contain', 'Password is required');
-        cy.get('.text-red-500').should('contain', 'Password is Required');
+        cy.get('.text-red-500').should('contain', 'Password is required');
+        // cy.get('.text-red-500').should('contain', 'Password is Required');
     });
 
     it('should display error for invalid email', () => {
