@@ -15,19 +15,31 @@ describe('Sponsor Tests', () => {
         cy.get('.ant-modal-content').should('be.visible');
     });
 
-    // it('Check that the form displays correctly with all fields visible and labeled appropriately.', () => {
-    //     cy.get('.ant-modal-title').should('contain', 'Create Sponsor');
-    //     sponsorsPage.nameInput.should('be.visible');
-    //     sponsorsPage.emailInput.should('be.visible');
-    //     sponsorsPage.phoneNumberInput.should('be.visible');
-    // });
+    it('Check that the form displays correctly with all fields visible and labeled appropriately.', () => {
+        sponsorsPage.clickOpenCreateSponsorButton();
+        cy.get('.ant-modal-title').should('contain', 'Create Sponsor');
+        sponsorsPage.nameInput.should('be.visible');
+        sponsorsPage.emailInput.should('be.visible');
+        sponsorsPage.phoneNumberInput.should('be.visible');
+    });
 
-    // it('Ensure that the "Create Sponsors" button is enabled when all required fields are filled out correctly.', () => {
-    //     sponsorsPage.fillName('John Doe');
-    //     sponsorsPage.fillEmail('john.doe@example.com');
-    //     sponsorsPage.fillPhoneNumber('1234567890');
-    //     sponsorsPage.createSponsorButton.should('be.enabled');
-    // });
+    it.only('Ensure that the "Create Sponsors" displays error message for invalid phone numbers', () => {
+        sponsorsPage.clickOpenCreateSponsorButton();
+        sponsorsPage.fillName('John Doe');
+        sponsorsPage.fillEmail('john.doe@example.com');
+        sponsorsPage.fillPhoneNumber('1234567890');
+        sponsorsPage.createSponsorButton.should('be.enabled').click();
+        cy.get('.text-red-500').should('contain', 'Invalid Nigerian Phone Number');
+    });
+
+    it('Ensure that the "Create Sponsors" displays error message for invalid email address', () => {
+        sponsorsPage.clickOpenCreateSponsorButton();
+        sponsorsPage.fillName('John Doe');
+        sponsorsPage.fillEmail('john.doe@example');
+        sponsorsPage.fillPhoneNumber('2347035678901');
+        sponsorsPage.createSponsorButton.should('be.enabled');
+        cy.get('.text-red-500').should('contain', 'Invalid email address');
+    });
 
     // it('Confirm that the user can enter valid data into the Name, Email, and Phone Number fields without any errors.', () => {
     //     sponsorsPage.fillName('John Doe');
@@ -101,23 +113,25 @@ describe('Sponsor Tests', () => {
     //     cy.get('.ant-modal-content').should('be.visible');
     // });
 
-    // it('Verify that the modal retains the user\'s input data if they attempt to close it and reopen it without refreshing the page.', () => {
-    //     sponsorsPage.fillName('Retain User');
-    //     sponsorsPage.fillEmail('retain.user@example.com');
-    //     sponsorsPage.fillPhoneNumber('1234567890');
-    //     sponsorsPage.clickCloseButton();
-    //     sponsorsPage.clickCloseButton(); // Reopen modal
-    //     sponsorsPage.nameInput.should('have.value', 'Retain User');
-    //     sponsorsPage.emailInput.should('have.value', 'retain.user@example.com');
-    //     sponsorsPage.phoneNumberInput.should('have.value', '1234567890');
-    // });
+    it('Verify that the modal retains the user\'s input data if they attempt to close it and reopen it without refreshing the page.', () => {
+        sponsorsPage.clickOpenCreateSponsorButton();
+        sponsorsPage.fillName('Retain User');
+        sponsorsPage.fillEmail('retain.user@example.com');
+        sponsorsPage.fillPhoneNumber('1234567890');
+        sponsorsPage.clickCloseButton();
+        sponsorsPage.clickOpenCreateSponsorButton() // Reopen modal
+        sponsorsPage.nameInput.should('have.value', 'Retain User');
+        sponsorsPage.emailInput.should('have.value', 'retain.user@example.com');
+        sponsorsPage.phoneNumberInput.should('have.value', '1234567890');
+    });
 
-    // it('Explore the behavior of the modal when the user uses keyboard navigation to fill out the form, ensuring that tabbing through fields works as expected.', () => {
-    //     sponsorsPage.nameInput.focus().tab();
-    //     sponsorsPage.emailInput.should('be.focused');
-    //     sponsorsPage.emailInput.tab();
-    //     sponsorsPage.phoneNumberInput.should('be.focused');
-    // });
+    it('Explore the behavior of the modal when the user uses keyboard navigation to fill out the form, ensuring that tabbing through fields works as expected.', () => {
+        sponsorsPage.clickOpenCreateSponsorButton();
+        sponsorsPage.nameInput.focus().tab();
+        sponsorsPage.emailInput.should('be.focused');
+        sponsorsPage.emailInput.tab();
+        sponsorsPage.phoneNumberInput.should('be.focused');
+    });
 
     
 });

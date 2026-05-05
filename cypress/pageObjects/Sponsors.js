@@ -21,7 +21,8 @@ class SponsorsPage {
     }
 
     get createSponsorButton() {
-        return cy.get('button[type="submit"]');
+        // return cy.get('button[type="submit"]');
+        return cy.get('form > .justify-end > .bg-primary')
     }
 
     get ticketCategory() {
