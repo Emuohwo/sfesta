@@ -10,7 +10,7 @@ describe('Login Page Tests', () => {
     it('should display error for empty email', () => {
         loginPage.enterPassword('validPassword123');
         loginPage.submit();
-        cy.get('.text-red-500').should('contain', 'Email is required');
+        cy.get('.text-red-500').should('contain', 'Email address is required');
         // cy.get('.text-red-500').should('contain', 'Required');
     });
 
@@ -28,12 +28,12 @@ describe('Login Page Tests', () => {
         cy.get('.text-red-500').should('contain', 'Invalid email address');
     });
 
-    // it('should display error for incorrect password', () => {
-    //     loginPage.enterEmail('test@example.com');
-    //     loginPage.enterPassword('wrongPassword');
-    //     loginPage.submit();
-    //     cy.get('.text-red-500').should('contain', 'Incorrect password');
-    // });
+    it('should display error for Invalid username/password', () => {
+        loginPage.enterEmail('test@example.com');
+        loginPage.enterPassword('wrongPassword');
+        loginPage.submit();
+        cy.get('.text-red-500').should('contain', 'Invalid username or password');
+    });
 
     it('should successfully login with valid credentials', () => {
         
