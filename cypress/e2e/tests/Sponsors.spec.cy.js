@@ -23,7 +23,7 @@ describe('Sponsor Tests', () => {
         sponsorsPage.phoneNumberInput.should('be.visible');
     });
 
-    it.only('Ensure that the "Create Sponsors" displays error message for invalid phone numbers', () => {
+    it('Ensure that the "Create Sponsors" displays error message for invalid phone numbers', () => {
         sponsorsPage.clickOpenCreateSponsorButton();
         sponsorsPage.fillName('John Doe');
         sponsorsPage.fillEmail('john.doe@example.com');
@@ -48,16 +48,17 @@ describe('Sponsor Tests', () => {
     //     sponsorsPage.createSponsorButton.should('not.be.disabled');
     // });
 
-    // it('Validate that the ticket categories and age groups are selectable and that the correct counts are displayed as users increase or decrease the number of tickets.', () => {
-    //     // Test ticket category selection and counting
-    //     sponsorsPage.ticketCategory.click();
-    //     cy.get('.some-selector-for-ticket-options').first().click(); // Adjust selector
-    //     cy.get('.ticket-count-display').should('contain', '1'); // Adjust selector
+    it.only('Validate that the ticket categories and age groups are selectable and that the correct counts are displayed as users increase or decrease the number of tickets.', () => {
+        // Test ticket category selection and counting
+        sponsorsPage.clickOpenCreateSponsorButton();
+        sponsorsPage.ticketCategory.click();
+        // cy.get('.some-selector-for-ticket-options').first().click(); // Adjust selector
+        // cy.get('.ticket-count-display').should('contain', '1'); // Adjust selector
 
-    //     // Increase ticket count
-    //     cy.get('.increase-ticket-button').click(); // Adjust selector
-    //     cy.get('.ticket-count-display').should('contain', '2'); // Adjust selector
-    // });
+        // Increase ticket count
+        cy.get('.increase-ticket-button').click(); // Adjust selector
+        cy.get('.ticket-count-display').should('contain', '2'); // Adjust selector
+    });
 
     // it('Test that the modal can be closed by clicking the close button and that it does not submit the form in the process.', () => {
     //     sponsorsPage.clickCloseButton();
@@ -125,13 +126,13 @@ describe('Sponsor Tests', () => {
         sponsorsPage.phoneNumberInput.should('have.value', '1234567890');
     });
 
-    it('Explore the behavior of the modal when the user uses keyboard navigation to fill out the form, ensuring that tabbing through fields works as expected.', () => {
-        sponsorsPage.clickOpenCreateSponsorButton();
-        sponsorsPage.nameInput.focus().tab();
-        sponsorsPage.emailInput.should('be.focused');
-        sponsorsPage.emailInput.tab();
-        sponsorsPage.phoneNumberInput.should('be.focused');
-    });
+    // it.only('Explore the behavior of the modal when the user uses keyboard navigation to fill out the form, ensuring that tabbing through fields works as expected.', () => {
+    //     sponsorsPage.clickOpenCreateSponsorButton();
+    //     sponsorsPage.nameInput.focus().tab();
+    //     sponsorsPage.emailInput.should('be.focused');
+    //     sponsorsPage.emailInput.tab();
+    //     sponsorsPage.phoneNumberInput.should('be.focused');
+    // });
 
     
 });
